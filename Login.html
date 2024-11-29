@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Login.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="hotel-name">Hotel Elite</div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" style="width: 100%; text-align: center;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="page">
+        <div class="container">
+            <div class="left">
+                <div class="login">Login</div>
+                <div class="msg">Welcome back! Please login to access the content.</div>
+            </div>
+
+            <div class="right">
+                <div class="login-toggle">
+                    <button id="customerBtn" class="toggle-btn active">Customer</button>
+                    <button id="adminBtn" class="toggle-btn">Admin</button>
+                </div>
+                <form class="form" action="{{ url_for('login_user') }}" method="POST" onsubmit="return validateLoginForm()">
+                    <input type="hidden" id="userType" name="user_type" value="customer">
+                    <label id="identifierLabel" for="identifier">Email</label>
+                    <input type="text" id="identifier" name="identifier" required>
+
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary submit-button">SUBMIT</button>
+                    </div>
+
+                    <div class="account-link">
+                        <a href="{{ url_for('Signup')}}">Don't have an Account?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validateLoginForm() {
+            var identifier = document.getElementById('identifier').value;
+            var password = document.getElementById('password').value;
+            var userType = document.getElementById('userType').value;
+
+            if (identifier === "" || password === "") {
+                alert("All fields must be filled out");
+                return false;
+            }
+
+            if (userType === "customer") {
+                var emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+                if (!emailPattern.test(identifier)) {
+                    alert("Please enter a valid email address.");
+                    return false;
+                }
+            } else {
+                var employeeNumberPattern = /^\d{4}$/;
+                if (!employeeNumberPattern.test(identifier)) {
+                    alert("Please enter a valid 4-digit employee number.");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Handle toggle button clicks
+        document.getElementById('customerBtn').addEventListener('click', function() {
+            document.getElementById('userType').value = 'customer';
+            document.getElementById('identifierLabel').innerText = 'Email';
+            document.getElementById('identifier').type = 'email';
+            document.getElementById('identifier').pattern = '[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$';
+            document.getElementById('identifier').title = 'Please enter a valid email address';
+            document.getElementById('customerBtn').classList.add('active');
+            document.getElementById('adminBtn').classList.remove('active');
+        });
+
+        document.getElementById('adminBtn').addEventListener('click', function() {
+            document.getElementById('userType').value = 'admin';
+            document.getElementById('identifierLabel').innerText = 'Employee Number';
+            document.getElementById('identifier').type = 'text';
+            document.getElementById('identifier').removeAttribute('pattern');
+            document.getElementById('identifier').removeAttribute('title');
+            document.getElementById('customerBtn').classList.remove('active');
+            document.getElementById('adminBtn').classList.add('active');
+        });
+
+        // Hide flash messages after 4 seconds (commenting out redirection)
+        setTimeout(function() {
+            var alertElement = document.querySelector('.alert');
+            if (alertElement) {
+                alertElement.style.display = 'none';
+            }
+            // Commenting out the redirection logic
+            // if (alertElement && alertElement.classList.contains('alert-success')) {
+            //     window.location.href = "{{ url_for('Main') }}";
+            // }
+        }, 4000);
+    </script>
+</body>
+
+</html>

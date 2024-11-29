@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Elite | Hotel Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-hotel"></i> <span class="brand-name">Hotel Elite</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('Rooms') }}">Rooms</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('Tables') }}">My Booking</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('Login') }}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main style="margin-top: 70px;">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" style="width: 100%; text-align: center;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <div class="background-img">
+            <p id="First">HOTEL ELITE</p>
+            <p id="Second">Best portal for hotel, vendor discovery and Booking</p>
+            <p id="Third">We are an Online Platform that helps users to find <br> the perfect Hotels with best user Experience ..</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><a href="tel:+1234567890">+91 2208-7352-48</a></li>
+                    <li><a href="mailto:info@hotelelite.com">info@hotelelite.com</a></li>
+                </ul>
+            </div>
+            <div class="footer-section social-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-reviews">
+            <div id="footer-reviews" class="reviews-container"></div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 Hotel Elite. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Hide flash messages after 2 seconds
+        setTimeout(function() {
+            const alertElements = document.querySelectorAll('.alert');
+            alertElements.forEach(element => {
+                element.style.display = 'none';
+            });
+        }, 2000);
+
+        let reviews = [];
+        
+        // Fetch the reviews from the server
+        fetch('{{ url_for("fetch_reviews") }}')
+            .then(response => response.json())
+            .then(data => {
+                reviews = data.reviews;
+                displayReview();
+            });
+
+        let currentReviewIndex = 0;
+
+        function displayReview() {
+            if (reviews.length > 0) {
+                const reviewData = reviews[currentReviewIndex];
+                document.getElementById('footer-reviews').innerHTML = `<strong>${reviewData.name}:</strong> ${reviewData.review}`;
+                currentReviewIndex = (currentReviewIndex + 1) % reviews.length;
+                setTimeout(displayReview, 4000); // Change review every 4 seconds
+            }
+        }
+    </script>
+</body>
+
+</html>

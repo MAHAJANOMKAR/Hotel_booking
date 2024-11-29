@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Signup.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container register">
+        <div class="row">
+            <div class="col-md-3 register-left">
+                <img src="{{ url_for('static', filename='banner.png') }}" alt="">
+                <p>Please Enter Your Details to create an Account!</p>
+                <form action="{{ url_for('Login') }}">
+                    <input type="submit" value="Login" class="btn-login">
+                </form>
+            </div>
+            <div class="col-md-9 register-right">
+                <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                    <!-- Tabs can be added here if needed -->
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <h3 class="register-heading">Register</h3>
+                        <div class="row register-form">
+                            <div class="col-md-6">
+                                <form method="POST" action="{{ url_for('add_user') }}" onsubmit="return validateForm()">
+                                    <input type="text" class="form-control" name="first_name" placeholder="First Name *" required>
+                                    <input type="text" class="form-control" name="last_name" placeholder="Last Name *" required>
+                                    <input type="password" class="form-control" name="password" placeholder="Password *" required>
+                                    <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password *" required>
+                                    <div class="maxl">
+                                        <label class="radio inline"><input type="radio" name="gender" value="male" checked> Male </label>
+                                        <label class="radio inline"><input type="radio" name="gender" value="female"> Female </label>
+                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                
+                                <input type="email" class="form-control" name="email" placeholder="Your Email *" required
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address.">
+                                <input type="text" minlength="10" maxlength="10" name="phone" class="form-control" placeholder="Your Phone *" required>
+                                <input type="date" name="dob" class="form-control" required>
+                                <input type="text" class="form-control" name="address" placeholder="Address" required>
+                                <input type="submit" class="btnRegister" value="Register">
+                                
+                            </div>
+                                </form>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <h3 class="register-heading">Apply as an Admin</h3>
+                        <div class="row register-form">
+                            <div class="col-md-6">
+                                <form method="POST" action="{{ url_for('add_user') }}" onsubmit="return validateForm()">
+                                    <input type="text" class="form-control" name="first_name" placeholder="First Name *" required>
+                                    <input type="text" class="form-control" name="last_name" placeholder="Last Name *" required>
+                                    <input type="email" class="form-control" name="email" placeholder="Email *" required
+                                               pattern="[a-z0-9._%+-]+@+\.[a-z]{2,}$$" title="Please enter a valid email address.">
+                                    <input type="text" maxlength="10" minlength="10" class="form-control" name="phone" placeholder="Phone *" required>
+                                    <input type="password" class="form-control" name="password" placeholder="Password *" required>
+                                    <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password *" required>
+                                    <input type="date" name="dob" class="form-control" required>
+                                    <input type="text" class="form-control" name="address" placeholder="Address" required>
+                                    <input type="submit" class="btnRegister" value="Register">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function validateForm() {
+            var password = document.getElementsByName('password')[0].value;
+            var confirmPassword = document.getElementsByName('confirm_password')[0].value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

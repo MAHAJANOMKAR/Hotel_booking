@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Admin Dashboard</h1>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger float-right">Logout</a>
+        </header>
+
+        <div class="content">
+            <h2>Total Hotel Income: Rs{{ total_income }}</h2>  <!-- Ensure this line exists -->
+
+
+            <h3>Update Room Status</h3>
+            <form action="{{ url_for('update_room_status') }}" method="POST">
+                <div class="form-group">
+                    <label for="room_type">Room Type:</label>
+                    <select name="room_type" id="room_type" class="form-control" required>
+                        <option value="2BHK with Beautiful Design">2BHK with Beautiful Design</option>
+                        <option value="1BHK with Beautiful Design">1BHK with Beautiful Design</option>
+                        <option value="Twin Rooms with Balcony">Twin Rooms with Balcony</option>
+                        <option value="Family Room with Terrace">Family Room with Terrace</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select name="status" id="status" class="form-control" required>
+                        <option value="available">Available</option>
+                        <option value="booked">Booked</option>
+                        <option value="out_of_order">Out of Order</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update Status</button>
+            </form>
+
+            <h3>Current Check-ins</h3>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Contact Number</th>
+                        <th>Name</th>
+                        <th>Room Type</th>
+                        <th>Check-in Date</th>
+                        <th>Check-out Date</th>
+                        <th>Duration (days)</th>
+                        <th>Room Type Price (Rs)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for checkin in checkins %}
+                    <tr>
+                        <td>{{ checkin.contact_number }}</td>
+                        <td>{{ checkin.name }}</td>
+                        <td>{{ checkin.room_type }}</td>
+                        <td>{{ checkin.checkin_date }}</td>
+                        <td>{{ checkin.checkout_date }}</td>
+                        <td>{{ checkin.duration }}</td>
+                        <td>{{ checkin.room_type_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

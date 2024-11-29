@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Rooms.css') }}">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: #f0f8f8; /* Light shade of #6aa4aa */
+        }
+
+        table {
+            position: relative;
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 900px;
+            border: 1px solid #6aa4aa;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #cde4e4; /* Light shade of #6aa4aa */
+        }
+
+        #header {
+            background: #6aa4aa;
+            color: #fff;
+        }
+
+        h1 {
+            font-weight: 600;
+            text-align: center;
+            background: #6aa4aa;
+            color: #fff;
+            padding: 15px;
+            margin: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Responsive table */
+        @media only screen and (max-width: 768px) {
+            table {
+                width: 90%;
+            }
+        }
+
+        /* Styled buttons */
+        .btn {
+            display: block;
+            margin: 20px auto;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 15px 25px;
+            background: #6aa4aa;
+            color: #fff;
+            width: 20%;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #4f8d8d; /* Darker shade of #6aa4aa */
+        }
+
+        .radio-button {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>My Bookings</h1>
+    <form id="bookingForm" method="POST" action="{{ url_for('Checkout') }}">
+        <table>
+            <tr id="header">
+                <th>Select</th>
+                <th>Contact Number</th>
+                <th>Name</th>
+                <th>Room Type</th>
+                <th>Check-in Date</th>
+                <th>Check-out Date</th>
+                <th>Duration (days)</th>
+                <th>Price per Night</th>
+            </tr>
+            {% for checkin in checkins %}
+            <tr>
+                <td class="radio-button">
+                    <input type="radio" name="selected_booking" value="{{ checkin.id }}" data-price="{{ checkin.room_type }}">
+                </td>
+                <td>{{ checkin.contact_number }}</td>
+                <td>{{ checkin.name }}</td>
+                <td>{{ checkin.room_type }}</td>
+                <td>{{ checkin.checkin_date }}</td>
+                <td>{{ checkin.checkout_date }}</td>
+                <td>{{ checkin.duration }}</td>
+                <td>{{ checkin.room_type_price }}</td> <!-- Add room price here -->
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="#" onclick="document.getElementById('bookingForm').submit();" class="btn">Checkout</a>
+        <a href="{{ url_for('Main') }}" class="btn">Home</a>
+    </form>
+</body>
+
+</html>

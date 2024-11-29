@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=inter:wght@100&display=swap');
+
+::selection {
+    background: #a1944b;
+}
+
+body {
+    background: url('https://plus.unsplash.com/premium_photo-1661938236023-49bb3a6d9072?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWwlMjBldXJvcGV8ZW58MHx8MHx8fDA%3D') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'inter ui', sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Hotel Name Styling */
+header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+}
+
+.hotel-name {
+    font-size: 60px;
+    font-weight: bolder;
+    color: rgb(0, 0, 0);
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+    font-family: 'Ubuntu', 'Courier New', Courier, monospace;
+}
+
+/* Page Background */
+.page {
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 40px);
+    position: absolute;
+    place-content: center;
+    width: calc(100% - 40px);
+}
+
+.container {
+    display: flex;
+    height: 370px;
+    margin: 0 auto;
+    width: 694px;
+}
+
+.left {
+    background: white;
+    height: calc(100% - 40px);
+    top: 20px;
+    position: relative;
+    width: 50%;
+}
+
+.login {
+    color: #39768f;
+    font-size: 50px;
+    font-weight: 800;
+    margin: 50px 40px 40px;
+}
+
+.msg {
+    color: #828282;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 400;
+    margin: 40px;
+}
+
+.right {
+    background: #070D0D;
+    box-shadow: -20px 0px 34px -10px rgba(0, 0, 0, 0.75);
+    color: #F1F1F2;
+    position: relative;
+    width: 50%;
+}
+
+svg {
+    position: absolute;
+    width: 320px;
+}
+
+path {
+    fill: none;
+    stroke: url(#linearGradient);
+    stroke-width: 4;
+    stroke-dasharray: 240 1386;
+}
+
+.form {
+    margin: 40px;
+    position: absolute;
+    margin-top: 15px; /* Add this to push the form down */
+}
+
+label {
+    color: #c2c2c5;
+    display: block;
+    font-size: 14px;
+    height: 16px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+input {
+    background: transparent;
+    border: 1px solid #c7fffa;
+    border-radius: 25px;
+    color: #ffffff;
+    font-size: 17px;
+    height: 30px;
+    line-height: 30px;
+    outline: none !important;
+    width: 100%;
+}
+
+#submit {
+    color: #ffffff;
+    width: 100%;
+    height: 35px;
+    background: #070D0D;
+    border: 1px solid #c7fffa;
+    border-radius: 25px;
+    margin-top: 40px;
+    transition: color 1s ease-out;
+    cursor: pointer;
+}
+
+#submit:hover {
+    color: #000000;
+}
+
+#submit:active {
+    color: #d0d0d2;
+}
+
+a {
+    color: #c3d5d6;
+    display: block;
+    font-size: 14px;
+    margin-top: 19px;
+    margin-left: 61px;
+    font-family: 'Ubuntu', sans-serif;
+    position: relative;
+    left: -30px;
+    /* Move text 50 pixels to the right */
+    top: 10px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.submit-button {
+    width: 25%;
+    border-radius: 25px;
+    background-color: #201f1f;
+    border-color: #39768f;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.account-link {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.alert {
+    width: 100%;
+    text-align: center;
+}
+
+.login-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px; /* Restore the original margin-bottom */
+}
+
+.toggle-btn {
+    background: #39768f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 5px;
+    border-radius: 25px;
+    font-size: 16px;
+}
+
+.toggle-btn.active {
+    background: #282828;
+}
+
+.toggle-btn:not(.active):hover {
+    background: #5a9abf;
+}

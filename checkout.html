@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/checkout.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+</head>
+<body>
+    <div class="container">
+        <div class="cover">
+            <div class="front">
+                <img src="https://images.unsplash.com/photo-1562790351-d273a961e0e9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80" alt="image" width="425" height="595">
+                <div class="text">
+                    <span class="text-1">Ready to Check Out</span>
+                    <span class="text-2">Visit again</span>
+                </div>
+            </div>
+        </div>
+        <div class="forms">
+            <div class="form-content">
+                <div class="check-out-form">
+                    <div class="title">Details</div>
+                    <form id="checkoutForm" action="{{ url_for('process_checkout') }}" method="POST">
+                        <div class="input-boxes">
+                            <!-- existing input fields -->
+                            <div class="input-box">
+                                <i class="fas fa-phone"></i>
+                                <input type="text" name="contact_number" value="{{ checkin.contact_number }}" placeholder="Enter Contact number" required>
+                            </div>
+                            <div class="input-box">
+                                <i class="fas fa-keyboard"></i>
+                                <input type="text" name="name" value="{{ checkin.name }}" placeholder="Enter your name" required>
+                            </div>
+                            <div class="input-box">
+                                <i class="fas fa-list-alt"></i>
+                                <input type="text" name="room_type" value="{{ checkin.room_type }}" placeholder="Enter room type" required>
+                            </div>
+                            <div class="input-box">
+                                <i class="fas fa-calendar"></i>
+                                <input type="date" name="checkin_date" value="{{ checkin.checkin_date }}" placeholder="Check-in date" required>
+                            </div>
+                            <div class="input-box">
+                                <i class="fas fa-calendar"></i>
+                                <input type="date" name="checkout_date" value="{{ checkin.checkout_date }}" placeholder="Check-out date" required>
+                            </div>
+                            <div class="input-box">
+                                <i class="fas fa-keyboard"></i>
+                                <input type="text" name="address" placeholder="Address" required>
+                            </div>
+                            <!-- review section -->
+                            <div class="input-box">
+                                <i class="fas fa-comment"></i>
+                                <input type="text" name="review" placeholder="Write a review" required>
+                            </div>
+                            <!-- Total amount section -->
+                            <div class="input-box">
+                                <i class="fas fa-money-bill"></i>
+                                <input type="text" name="total_amount" id="total_amount" value="" placeholder="Total Amount" readonly>
+                            </div>
+                            <div class="button input-box">
+                                <input type="submit" value="Check Out">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkin_date = new Date("{{ checkin.checkin_date }}");
+            const checkout_date = new Date("{{ checkin.checkout_date }}");
+            const price_per_night = parseFloat("{{ checkin.room_type_price }}");
+            const duration = (checkout_date - checkin_date) / (1000 * 60 * 60 * 24);
+            const total_amount = duration * price_per_night;
+            document.getElementById('total_amount').value = total_amount;
+        });
+
+        document.getElementById('checkoutForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this)
+            }).then(response => {
+                if (response.ok) {
+                    response.blob().then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'bill.pdf';
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        window.location.href = "{{ url_for('Main') }}";
+                    });
+                } else {
+                    alert('Checkout failed. Please try again.');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

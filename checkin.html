@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/checkin.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check-In Form</title>
+</head>
+<body>
+  <div class="container">
+    <div class="cover">
+      <div class="front">
+        <img src="https://images.unsplash.com/photo-1542468006-adf623743f53?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=404&q=80" alt="image" width="425" height="595">
+        <div class="text">
+          <span class="text-1">Ready to Check-In</span>
+          <span class="text-2">Have A Nice Day</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="forms">
+      <div class="form-content">
+        <div class="check-in-form">
+          <div class="title">Details</div>
+          <form action="{{ url_for('checkin_route') }}" method="POST">
+            <div class="input-boxes">
+              <div class="input-box">
+                <i class="fas fa-phone"></i>
+                <input type="text" name="contact_number" placeholder="Enter Contact number" required pattern="[6-9][0-9]{9}" title="Phone number should be a 10-digit number starting with 6, 7, 8, or 9">
+              </div>
+
+              <div class="input-box">
+                <i class="fas fa-keyboard"></i>
+                <input type="text" name="name" placeholder="Enter your name" required>
+              </div>
+
+              <div class="input-box">
+                <i class="fas fa-list-alt"></i>
+                <input type="text" name="room_type" placeholder="Enter room type" required list="room-options">
+                <datalist id="room-options">
+                  <option value="2BHK with Beautiful Design">
+                  <option value="1BHK with Beautiful Design">
+                  <option value="Twin Rooms with Balcony">
+                  <option value="Family Room with Terrace">
+                </datalist>
+              </div>
+
+              <div class="input-box">
+                <i class="fas fa-calendar"></i>
+                <input type="date" name="checkin_date" id="checkin-date" placeholder="Check-in date" required>
+              </div>
+
+              <div class="input-box">
+                <i class="fas fa-calendar"></i>
+                <input type="date" name="checkout_date" id="checkout-date" placeholder="Check-out date" required onchange="calculateDays()">
+              </div>
+
+              <div class="input-box">
+                <i class="fas fa-keyboard"></i>
+                <input type="text" id="stay-duration" placeholder="Number of days to stay" readonly>
+              </div>
+
+              <div class="button input-box">
+                <input type="submit" value="Check-In">
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateDays() {
+      const checkinDate = document.getElementById("checkin-date").value;
+      const checkoutDate = document.getElementById("checkout-date").value;
+
+      if (checkinDate && checkoutDate) {
+        const startDate = new Date(checkinDate);
+        const endDate = new Date(checkoutDate);
+
+        const differenceInTime = endDate - startDate;
+        const days = differenceInTime / (1000 * 60 * 60 * 24);
+
+        const stayDuration = document.getElementById("stay-duration");
+
+        if (days > 0) {
+          stayDuration.value = days;
+        } else {
+          stayDuration.value = "Invalid Dates";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
